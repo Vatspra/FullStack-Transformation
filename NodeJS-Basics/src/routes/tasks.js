@@ -1,25 +1,17 @@
 const express = require("express");
+const validateTask = require("../validators/taskValidator");
+const validationHandler = require("../middleware/validationHandler");
 const taskController = require("../controllers/taskController");
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-  taskController.getTasks(req, res);
-});
+router.get("/", taskController.getTasks);
 
-router.post("/", async (req, res) => {
-  taskController.saveTask(req, res);
-});
+router.post("/", validateTask, validationHandler, taskController.saveTask);
 
-router.put("/:id", (req, res) => {
-  taskController.updateTask(req, res);
-});
+router.put("/:id", taskController.updateTask);
 
-router.patch("/markDone/:id", (req, res) => {
-  taskController.completeTask(req, res);
-});
+router.patch("/markDone/:id", taskController.completeTask);
 
-router.delete("/:id", (req, res) => {
-  taskController.updateTask(req, res);
-});
+router.delete("/:id", taskController.updateTask);
 
 module.exports = router;
